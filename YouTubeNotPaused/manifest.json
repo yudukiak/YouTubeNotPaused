@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "YouTube Not Paused",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Video paused. Continue watching?",
   "author": "micelle",
   "icons": {
