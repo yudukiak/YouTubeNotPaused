@@ -1,6 +1,8 @@
 const click = () => {
   setTimeout(() => {
-    document.querySelector('#confirm-button > a > paper-button#button > yt-formatted-string#text').click()
+    const cancel = document.querySelector('#cancel-button > a > paper-button#button > yt-formatted-string#text')
+    const confirm = document.querySelector('#confirm-button > a > paper-button#button > yt-formatted-string#text')
+    if (cancel == null && confirm) confirm.click()
   }, 200)
 }
 const popupObserver = new MutationObserver(records => {
