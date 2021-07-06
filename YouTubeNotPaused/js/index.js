@@ -1,7 +1,7 @@
 const click = () => {
   setTimeout(() => {
-    const cancel = document.querySelector('#cancel-button > a > paper-button#button > yt-formatted-string#text')
-    const confirm = document.querySelector('#confirm-button > a > paper-button#button > yt-formatted-string#text')
+    const cancel = document.querySelector('#cancel-button > a > #button > #text')
+    const confirm = document.querySelector('#confirm-button > a > #button > #text')
     if (cancel == null && confirm) confirm.click()
   }, 200)
 }
