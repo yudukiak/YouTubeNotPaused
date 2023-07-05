@@ -1,30 +1,45 @@
-const click = () => {
-  setTimeout(() => {
-    const cancel = document.querySelector('#cancel-button > a > #button > #text')
-    const confirm = document.querySelector('#confirm-button > a > #button > #text')
-    if (cancel == null && confirm) confirm.click()
+const popupName = 'ytd-popup-container'
+const dialogName = 'tp-yt-paper-dialog'
+
+const cancelName = '#cancel-button button'
+const confirmName = '#confirm-button button'
+
+const elementClick = _ => {
+  // すぐに処理するとnullになるので0.2秒後に処理
+  setTimeout(_ => {
+    document.querySelectorAll(dialogName).forEach(elm => {
+      const cancelElement = elm.querySelector(cancelName) // 「キャンセル」
+      const buttonElement = elm.querySelector(confirmName) // 「はい」
+      if (cancelElement || !buttonElement) return
+      buttonElement.click()
+      popupObserver.disconnect()
+    })
   }, 200)
 }
+
+const dialogObserver = new MutationObserver(records => {
+  elementClick()
+})
 const popupObserver = new MutationObserver(records => {
-  if (records[0].addedNodes[0].localName != 'paper-dialog') return
-  const dialog = document.getElementsByTagName('paper-dialog')[0]
-  const dialogObserver = new MutationObserver(records => click())
-  click()
-  dialogObserver.observe(dialog, {
-    attributes: true
+  records.forEach(record => {
+    Array.from(record.addedNodes).forEach(addedNode => {
+      // ダイアログ以外は処理しない
+      if (dialogName !== addedNode.localName) return
+      elementClick()
+      // 再度ダイアログが表示されるかを監視
+      dialogObserver.observe(addedNode, { attributes: true })
+    })
   })
 })
-const start = (popup) => {
-  popupObserver.observe(popup, {
-    childList: true
-  })
+
+// 一度もダイアログが表示されてない場合は、popupの中身は空
+const start = element => {
+  popupObserver.observe(element, { childList: true })
 }
-const popup = document.getElementsByTagName('ytd-popup-container')[0]
-// elementが取得できない時があるので……
-if (popup != null) {
-  start(popup)
+const popupElementObserver = document.querySelector(popupName)
+// elementが取得できない時があるので時間差で取得
+if (popupElementObserver != null) {
+  start(popupElementObserver)
 } else {
-  setTimeout(() => {
-    start(document.getElementsByTagName('ytd-popup-container')[0])
-  }, 10000)
+  setTimeout(_ => start(document.querySelector(popupName)), 10000)
 }
