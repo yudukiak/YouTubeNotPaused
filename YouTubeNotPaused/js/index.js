@@ -1,6 +1,5 @@
 const popupName = 'ytd-popup-container'
 const dialogName = 'tp-yt-paper-dialog'
-
 const cancelName = '#cancel-button button'
 const confirmName = '#confirm-button button'
 
@@ -9,9 +8,9 @@ const elementClick = _ => {
   setTimeout(_ => {
     document.querySelectorAll(dialogName).forEach(elm => {
       const cancelElement = elm.querySelector(cancelName) // 「キャンセル」
-      const buttonElement = elm.querySelector(confirmName) // 「はい」
-      if (cancelElement || !buttonElement) return
-      buttonElement.click()
+      const confirmElement = elm.querySelector(confirmName) // 「はい」
+      if (cancelElement || !confirmElement) return
+      confirmElement.click()
       popupObserver.disconnect()
     })
   }, 200)
